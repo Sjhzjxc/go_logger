@@ -43,6 +43,7 @@ func main() {
 		FileName:    "server",
 		LinkName:    "latest_log",
 		Format:      "json",
+		MaxAge:      7,
 		WithConsole: true,
 	})
 	if err != nil {

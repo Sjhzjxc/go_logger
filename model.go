@@ -8,4 +8,5 @@ type LogConfig struct {
 	LinkName    string
 	Format      string
 	WithConsole bool
+	MaxAge      int
 }

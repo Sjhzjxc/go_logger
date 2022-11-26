@@ -11,11 +11,11 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-func GetWriteSyncer(filePath, fileName, linkName string, withConsole bool) (zapcore.WriteSyncer, error) {
+func GetWriteSyncer(filePath, fileName, linkName string, withConsole bool, maxAge int) (zapcore.WriteSyncer, error) {
 	fileWriter, err := rotatelogs.New(
 		path.Join(filePath, fileName+"_%Y-%m-%d.log"),
 		rotatelogs.WithLinkName(linkName),
-		rotatelogs.WithMaxAge(7*24*time.Hour),
+		rotatelogs.WithMaxAge(maxAge*24*time.Hour),
 		rotatelogs.WithRotationTime(24*time.Hour),
 	)
 	if err != nil {

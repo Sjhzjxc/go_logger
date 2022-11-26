@@ -57,11 +57,26 @@ func levelValue(level string) zapcore.Level {
 }
 
 func NewLogger(config *LogConfig) (*zap.SugaredLogger, error) {
+	if config.FileExt == "" {
+		config.FileExt = "log"
+	}
+	if config.FileName == "" {
+		config.FileName = "go_logger"
+	}
+	if config.FileName == "" {
+		config.FileName = "go_logger"
+	}
+	if config.LinkName == "" {
+		config.LinkName = "latest_log"
+	}
+	if config.MaxAge == 0 {
+		config.MaxAge = 1
+	}
 	encoder := getEncoder(config.Format)
 	logLevel := zap.LevelEnablerFunc(func(logLevel zapcore.Level) bool {
 		return logLevel >= levelValue(config.Level)
 	})
-	writer, err := GetWriteSyncer(config.Director, config.FileName, config.LinkName, config.WithConsole)
+	writer, err := GetWriteSyncer(config.Director, config.FileName, config.LinkName, config.WithConsole, config.MaxAge)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +84,7 @@ func NewLogger(config *LogConfig) (*zap.SugaredLogger, error) {
 		zapcore.NewCore(encoder, writer, logLevel),
 	}
 	core := zapcore.NewTee(tees...)
-	logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(0), zap.AddStacktrace(zapcore.ErrorLevel)).Sugar()
+	logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.ErrorLevel)).Sugar()
 	return logger, nil
 }
 
@@ -78,9 +93,10 @@ func DefaultLogger() (*zap.SugaredLogger, error) {
 		Director:    "./logs",
 		Level:       "warn",
 		FileExt:     "log",
-		FileName:    "server",
+		FileName:    "go_logger",
 		LinkName:    "latest_log",
 		Format:      "json",
+		MaxAge:      7,
 		WithConsole: true,
 	}
 	return NewLogger(config)
