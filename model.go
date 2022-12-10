@@ -1,6 +1,6 @@
 package go_logger
 
-type LogConfig struct {
+type Config struct {
 	Director    string
 	Level       string
 	FileExt     string

@@ -56,12 +56,9 @@ func levelValue(level string) zapcore.Level {
 
 }
 
-func NewLogger(config *LogConfig) (*zap.SugaredLogger, error) {
+func NewLogger(config *Config) (*zap.SugaredLogger, error) {
 	if config.FileExt == "" {
 		config.FileExt = "log"
-	}
-	if config.FileName == "" {
-		config.FileName = "go_logger"
 	}
 	if config.FileName == "" {
 		config.FileName = "go_logger"
@@ -89,7 +86,7 @@ func NewLogger(config *LogConfig) (*zap.SugaredLogger, error) {
 }
 
 func DefaultLogger() (*zap.SugaredLogger, error) {
-	config := &LogConfig{
+	config := &Config{
 		Director:    "./logs",
 		Level:       "warn",
 		FileExt:     "log",

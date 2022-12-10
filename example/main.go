@@ -36,7 +36,7 @@ func Level3() error {
 }
 
 func main() {
-	logger, err := go_logger.NewLogger(&go_logger.LogConfig{
+	logger, err := go_logger.NewLogger(&go_logger.Config{
 		Director:    "./logs",
 		Level:       "warn",
 		FileExt:     "log",
