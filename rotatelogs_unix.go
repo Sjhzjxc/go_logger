@@ -15,7 +15,7 @@ func GetWriteSyncer(filePath, fileName, linkName string, withConsole bool, maxAg
 	fileWriter, err := rotatelogs.New(
 		path.Join(filePath, fileName+"_%Y-%m-%d.log"),
 		rotatelogs.WithLinkName(linkName),
-		rotatelogs.WithMaxAge(maxAge*24*time.Hour),
+		rotatelogs.WithMaxAge(time.Duration(maxAge)*24*time.Hour),
 		rotatelogs.WithRotationTime(24*time.Hour),
 	)
 	if err != nil {
